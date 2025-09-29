@@ -46,6 +46,7 @@ By using window functions, the university can rank top students by department an
 | courses      | Course catalog                   | `course_id` (PK), `title`, `credit_hours`                                   |
 | enrollments  | Records of students taking courses | `enrollment_id` (PK), `student_id` (FK → students.student_id), `course_id` (FK → courses.course_id), `term`, `grade` |
 
+<br><br><br><br>
 
 ### ER Diagram
 
