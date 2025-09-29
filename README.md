@@ -208,7 +208,7 @@ ORDER BY student_id, term;
 
 * **Interpretation:**
 
-&nbsp;&nbsp;&nbsp;Ranks orders within each region. RANK() may skip ranks on ties, while DENSE_RANK() doesn't.<br>
+
 
 •	SUM(...) OVER gives cumulative sum of term averages for each student (in term order).
 •	AVG(...) OVER with the same frame gives cumulative average (rolling average up to current term).
@@ -255,8 +255,6 @@ ORDER BY student_id, term;
 
 * **Interpretation:** 
 
-&nbsp;&nbsp;&nbsp;Filters to get the top 3 highest orders per region.<br>
-
 •	LAG(...) gives the previous term’s average grade for that student (if exists).
 •	diff_grade is absolute difference.
 •	pct_change is percentage change (growth or decline) from previous term.
@@ -296,8 +294,6 @@ ORDER BY overall_avg DESC;
 
 * **Interpretation:**
 
-&nbsp;&nbsp;&nbsp;Retrieves the first 2 orders per region based on the order date.<br>
-
 •	NTILE(4) divides students into 4 buckets (quartiles), highest average in quartile 1, etc.
 •	CUME_DIST() gives for each student the fraction of students with average grade ≤ that student (a cumulative percentile).
 
@@ -310,9 +306,13 @@ Screenshot:
 
 ### Step6: Results Analysis 
 
-1.	Descriptive — “In term 2025S1, the top students in Computer Science had average grades of 92, 88, 85, etc. Student 502’s grade improved from 90 to 92 in next term, while student 501 dropped. Quartile analysis shows 25% of students are in top quartile with averages above 90.”
-2.	Diagnostic — “Student 502 improved due to better course selection or workload adjustments; student 501’s dip may be due to a difficult course or external factor. Students in lower quartiles share pattern of low grades in core required courses.”
-3.	Prescriptive — “Provide tutoring or mentoring to students in quartile 3 to push them into higher quartiles. Monitor students whose term-over-term decline is steep and intervene early. Encourage students to avoid overloading difficult courses in same term.”
+### 5. Results Analysis
+
+1. **Descriptive** — Summarizes student performance trends across terms and departments. Highlights top-performing students, cumulative GPA progression, and performance distribution within quartiles.
+
+2. **Diagnostic** — Identifies patterns of improvement or decline, allowing understanding of factors affecting student performance. Helps detect students whose term-over-term performance changes significantly.
+
+3. **Prescriptive** — Suggests actionable measures based on analysis, such as targeted support for students in lower quartiles, monitoring students with declining performance, and providing guidance on course selection or workload management.
 
 
 
@@ -323,23 +323,59 @@ Screenshot:
 
 | No. | Query Type | Purpose / Description | SQL Functions Used | Real-Life Application Example |
 |-----|------------|----------------------|-------------------|------------------------------|
-| 1 | Compare with Previous/Next | Compare value with previous/next row chronologically | LAG(), LEAD(), CASE | E-commerce sales trends |
-| 2 | Ranking Within a Category | Rank records inside a category | RANK(), DENSE_RANK(), PARTITION BY, ORDER BY | Top employees or orders by region |
-| 3 | Top 3 Records per Category | Return top 3 values per group while handling ties | DENSE_RANK(), PARTITION BY, ORDER BY | Top-selling products per category |
-| 4 | First 2 Records per Category | Find first 2 entries from each category based on date | ROW_NUMBER(), PARTITION BY, ORDER BY | Early adopters per region |
-| 5 | Aggregation with Window Functions | Max value per group and overall for comparison | MAX() OVER (PARTITION BY ...), MAX() OVER () | Compare customer orders with top regional and overall orders |
+| 1 | Term-over-Term Comparison | Compare student grade with previous/next term | LAG(), LEAD(), NVL(), CASE | Track GPA improvement or decline |
+| 2 | Ranking Students per Department/Term | Rank students within a department each term | RANK(), DENSE_RANK(), ROW_NUMBER(), PERCENT_RANK(), PARTITION BY, ORDER BY | Identify top-performing students |
+| 3 | Top N Records per Group | Return top N students per department while handling ties | RANK(), DENSE_RANK(), PARTITION BY, ORDER BY | Highlight top 5 students per department |
+| 4 | Distribution / Quartiles | Segment students into performance quartiles | NTILE(4), CUME_DIST(), ORDER BY | Academic performance quartile analysis |
+| 5 | Aggregation with Cumulative / Moving Windows | Calculate running totals, cumulative averages, min/max per student | SUM() OVER(), AVG() OVER(), MIN() OVER(), MAX() OVER(), ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW | Track cumulative GPA, moving average GPA, term min/max |
 
 
-### Step 7 — References 
+### Step 7 — References
 
-1.	“Window Functions in SQL” — freeCodeCamp tutorial FreeCodeCamp
-2.	“6 Most Useful SQL Window Functions You Should Know” — Analytics Vidhya Analytics Vidhya
-3.	Wikipedia article “Window function (SQL)” Wikipedia
-4.	“SQL Window Functions explained through 4 real-world examples” — Medium article Medium
-5.	“SQL Window Functions: RANK and DENSE_RANK” — SQLServerCentral SQLServerCentral
-6.	“Learning T-SQL Window Functions” — Aaron Bos aaronbos.dev
-7.	“Optimization of Analytic Window Functions” (academic) arXiv
-8.	“Support Aggregate Analytic Window Function over Large Data by Spilling” arXiv
-9.	“Statistical Dimension Identification for Student Progression System” (academic) arXiv
+1. **freeCodeCamp**  
+   *How to Use Window Functions in SQL – with Example Queries*  
+   A comprehensive tutorial introducing SQL window functions, their syntax, and practical examples.  
+   [https://www.freecodecamp.org/news/window-functions-in-sql/](https://www.freecodecamp.org/news/window-functions-in-sql/)
+
+2. **Analytics Vidhya**  
+   *6 Most Useful SQL Window Functions You Should Definitely Know About*  
+   An article highlighting essential SQL window functions like `LEAD()`, `LAG()`, and `NTILE()`, with practical use cases.  
+   [https://www.analyticsvidhya.com/blog/2021/07/6-most-useful-sql-window-functions-you-should-definitely-know-about/](https://www.analyticsvidhya.com/blog/2021/07/6-most-useful-sql-window-functions-you-should-definitely-know-about/)
+
+3. **Wikipedia**  
+   *Window function (SQL)*  
+   A detailed explanation of SQL window functions, their syntax, and examples.  
+   [https://en.wikipedia.org/wiki/Window_function_(SQL)](https://en.wikipedia.org/wiki/Window_function_(SQL))
+
+4. **Medium**  
+   *SQL Window Functions Explained Through 4 Real-World Examples*  
+   An article demonstrating the application of SQL window functions in various scenarios.  
+   [https://medium.com/learning-sql/sql-window-functions-explained-through-4-real-world-examples-91db9972b6bc](https://medium.com/learning-sql/sql-window-functions-explained-through-4-real-world-examples-91db9972b6bc)
+
+5. **SQLServerCentral**  
+   *SQL Window Functions Series: RANK() and DENSE_RANK()*  
+   An in-depth look at the `RANK()` and `DENSE_RANK()` functions in SQL, including their differences and use cases.  
+   [https://www.sqlservercentral.com/articles/sql-window-functions-series-rank-and-dense_rank](https://www.sqlservercentral.com/articles/sql-window-functions-series-rank-and-dense_rank)
+
+6. **Aaron Bos**  
+   *Learning T-SQL Window Functions*  
+   A guide focusing on T-SQL window functions, their syntax, and practical applications.  
+   [https://aaronbos.dev/posts/learn-tsql-window-functions](https://aaronbos.dev/posts/learn-tsql-window-functions)
+
+7. **arXiv**  
+   *Optimization of Analytic Window Functions*  
+   An academic paper discussing optimization techniques for analytic window functions in SQL.  
+   [https://arxiv.org/abs/1208.0086](https://arxiv.org/abs/1208.0086)
+
+8. **arXiv**  
+   *Support Aggregate Analytic Window Function over Large Data by Spilling*  
+   A research paper addressing challenges and solutions for supporting aggregate analytic window functions over large datasets.  
+   [https://arxiv.org/abs/2007.10385](https://arxiv.org/abs/2007.10385)
+
+9. **arXiv**  
+   *Statistical Dimension Identification for Student Progression System*  
+   An academic study exploring statistical methods for identifying dimensions in student progression systems.  
+   [https://arxiv.org/abs/2007.10385](https://arxiv.org/abs/2007.10385)
+
 
 
