@@ -118,7 +118,7 @@ INSERT INTO enrollments VALUES (10008, 504, 303, '2025S2', 70);
 Screenshot:
 
 
-![Screenshot](./screenshots/Screenshot 2025-09-29 142012.png)
+![Screenshot](./screenshots/3.png)
 
 <br><br><br><br>
 
@@ -173,7 +173,7 @@ ORDER BY term, department, rnk;
 
 Screenshot:
 
-![Screenshot](./screenshots/Screenshot 2025-09-29 143154.png)
+![Screenshot](./screenshots/4.png)
 
 <br><br><br>
 
@@ -217,7 +217,7 @@ ORDER BY student_id, term;
 
 Screenshot:
 
-![Screenshot](./screenshots/Screenshot 2025-09-29 143409.png)
+![Screenshot](./screenshots/5.png)
 <br><br><br>
 
 
@@ -264,7 +264,7 @@ ORDER BY student_id, term;
 
 Screenshot:
 
-![Screenshot](./screenshots/Screenshot 2025-09-29 143659.png)
+![Screenshot](./screenshots/7.png)
 <br><br><br>
 
 
@@ -304,7 +304,7 @@ ORDER BY overall_avg DESC;
 
 Screenshot:
 
-![Screenshot](./screenshots/Screenshot 2025-09-29 144642.png)
+![Screenshot](./screenshots/8.png)
 <br><br><br>
 
 
