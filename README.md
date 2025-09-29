@@ -83,7 +83,7 @@ CREATE TABLE enrollments (
 
 Screenshot:
 
-![Screenshot](screenshots/Screenshot 2025-09-29 141523.png)
+![Screenshot](screenshots/1.png)
 
 
 <br><br><br><br>
