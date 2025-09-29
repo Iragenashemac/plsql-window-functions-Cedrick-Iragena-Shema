@@ -219,9 +219,13 @@ ORDER BY student_id, term;
 
 * **Interpretation:**
 
-  - `SUM(...) OVER` gives the cumulative sum of term averages for each student (in term order).  
-  - `AVG(...) OVER` with the same frame gives the cumulative average (rolling average up to the current term).  
-  - `MIN(...)` and `MAX(...)` over the partition (without ordering) yield the minimum and maximum term average grade ever achieved by that student.
+  - `LAG()` compares each order amount with the previous one in the partition.  
+  - `LEAD()` compares each order amount with the next one in the partition.  
+  - This query identifies the top 5 students in each department for each term based on average grade.  
+  - `RANK()` assigns the same rank to ties and may skip subsequent ranks.  
+  - `DENSE_RANK()` assigns the same rank to ties but does **not** skip subsequent ranks.  
+  - `ROW_NUMBER()` enforces a unique ordering, giving each row a distinct number even if there are ties.  
+  - `PERCENT_RANK()` calculates the relative standing of each student within the partition, ranging from 0 to 1.
 
 
 Screenshot:
