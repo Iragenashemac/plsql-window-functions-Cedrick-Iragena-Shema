@@ -1,0 +1,145 @@
+SQL DDL Example:
+
+CREATE TABLE students (
+  student_id NUMBER PRIMARY KEY,
+  name VARCHAR2(100),
+  department VARCHAR2(100)
+);
+
+CREATE TABLE courses (
+  course_id NUMBER PRIMARY KEY,
+  title VARCHAR2(200),
+  credit_hours NUMBER
+);
+
+CREATE TABLE enrollments (
+  enrollment_id NUMBER PRIMARY KEY,
+  student_id NUMBER REFERENCES students(student_id),
+  course_id NUMBER REFERENCES courses(course_id),
+  term VARCHAR2(20),
+  grade NUMBER  
+);
+
+Sample Data:
+
+INSERT INTO students VALUES (501, 'Alice Uwimana', 'Computer Science');
+INSERT INTO students VALUES (502, 'Bob Mukamana', 'Computer Science');
+INSERT INTO students VALUES (503, 'Clara Niyonsaba', 'Mathematics');
+INSERT INTO students VALUES (504, 'David Hakizimana', 'Mathematics');
+
+INSERT INTO courses VALUES (301, 'Database Systems', 3);
+INSERT into courses VALUES (302, 'Algorithms', 4);
+INSERT into courses VALUES (303, 'Linear Algebra', 3);
+
+INSERT INTO enrollments VALUES (10001, 501, 301, '2025S1', 88);
+INSERT INTO enrollments VALUES (10002, 502, 301, '2025S1', 92);
+INSERT INTO enrollments VALUES (10003, 503, 303, '2025S1', 75);
+INSERT INTO enrollments VALUES (10004, 501, 302, '2025S1', 85);
+INSERT INTO enrollments VALUES (10005, 502, 302, '2025S2', 90);
+INSERT INTO enrollments VALUES (10006, 501, 301, '2025S2', 91);
+INSERT INTO enrollments VALUES (10007, 503, 303, '2025S2', 80);
+INSERT INTO enrollments VALUES (10008, 504, 303, '2025S2', 70);
+
+
+-- Compute average grade per student per term in their department
+WITH student_term AS (
+  SELECT
+    s.student_id,
+    s.name,
+    s.department,
+    e.term,
+    AVG(e.grade) AS avg_grade
+  FROM enrollments e
+  JOIN students s ON e.student_id = s.student_id
+  GROUP BY s.student_id, s.name, s.department, e.term
+)
+SELECT
+  term,
+  department,
+  student_id,
+  name,
+  avg_grade,
+  RANK() OVER (PARTITION BY term, department ORDER BY avg_grade DESC) AS rnk,
+  DENSE_RANK() OVER (PARTITION BY term, department ORDER BY avg_grade DESC) AS dense_rnk,
+  ROW_NUMBER() OVER (PARTITION BY term, department ORDER BY avg_grade DESC) AS rownum,
+  PERCENT_RANK() OVER (PARTITION BY term, department ORDER BY avg_grade DESC) AS pct_rank
+FROM student_term
+WHERE RANK() OVER (PARTITION BY term, department ORDER BY avg_grade DESC) <= 5
+ORDER BY term, department, rnk;
+
+
+--Running cumulative average grade (or sum of grades) per student across terms--
+WITH student_term AS (
+  SELECT
+    s.student_id,
+    s.name,
+    e.term,
+    AVG(e.grade) AS avg_grade
+  FROM enrollments e
+  JOIN students s ON e.student_id = s.student_id
+  GROUP BY s.student_id, s.name, e.term
+)
+SELECT
+  student_id,
+  name,
+  term,
+  avg_grade,
+  SUM(avg_grade) OVER (PARTITION BY student_id ORDER BY term
+                       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cum_sum_grade,
+  AVG(avg_grade) OVER (PARTITION BY student_id ORDER BY term
+                       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cum_avg_grade,
+  MIN(avg_grade) OVER (PARTITION BY student_id) AS min_term_grade,
+  MAX(avg_grade) OVER (PARTITION BY student_id) AS max_term_grade
+FROM student_term
+ORDER BY student_id, term;
+
+
+--Measure how student’s average grade changes term-to-term--
+WITH student_term AS (
+  SELECT
+    s.student_id,
+    s.name,
+    e.term,
+    AVG(e.grade) AS avg_grade
+  FROM enrollments e
+  JOIN students s ON e.student_id = s.student_id
+  GROUP BY s.student_id, s.name, e.term
+)
+SELECT
+  student_id,
+  name,
+  term,
+  avg_grade,
+  NVL(LAG(avg_grade) OVER (PARTITION BY student_id ORDER BY term), 0) AS prev_term_grade,
+  NVL(avg_grade - LAG(avg_grade) OVER (PARTITION BY student_id ORDER BY term), 0) AS diff_grade,
+  CASE
+    WHEN LAG(avg_grade) OVER (PARTITION BY student_id ORDER BY term) IS NULL THEN 0
+    ELSE ROUND(
+      (avg_grade - LAG(avg_grade) OVER (PARTITION BY student_id ORDER BY term))
+      / LAG(avg_grade) OVER (PARTITION BY student_id ORDER BY term) * 100, 2
+    )
+  END AS pct_change
+FROM student_term
+ORDER BY student_id, term;
+
+
+-- Overall average grade per student across all terms
+WITH student_overall AS (
+  SELECT
+    s.student_id,
+    s.name,
+    s.department,
+    AVG(e.grade) AS overall_avg
+  FROM enrollments e
+  JOIN students s ON e.student_id = s.student_id
+  GROUP BY s.student_id, s.name, s.department
+)
+SELECT
+  student_id,
+  name,
+  department,
+  overall_avg,
+  NTILE(4) OVER (ORDER BY overall_avg DESC) AS quartile_rank,
+  CUME_DIST() OVER (ORDER BY overall_avg DESC) AS cumulative_dist
+FROM student_overall
+ORDER BY overall_avg DESC;
