@@ -325,7 +325,7 @@ Screenshot:
 3. **Prescriptive** — Suggests actionable measures based on analysis, such as targeted support for students in lower quartiles, monitoring students with declining performance, and providing guidance on course selection or workload management.
 
 
-
+<br><br><br><br>
 
 
 
@@ -339,6 +339,7 @@ Screenshot:
 | 4 | Distribution / Quartiles | Segment students into performance quartiles | NTILE(4), CUME_DIST(), ORDER BY | Academic performance quartile analysis |
 | 5 | Aggregation with Cumulative / Moving Windows | Calculate running totals, cumulative averages, min/max per student | SUM() OVER(), AVG() OVER(), MIN() OVER(), MAX() OVER(), ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW | Track cumulative GPA, moving average GPA, term min/max |
 
+<br><br><br><br>
 
 ### Step 7 — References
 
