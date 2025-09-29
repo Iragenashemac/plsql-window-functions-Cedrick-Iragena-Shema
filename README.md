@@ -208,11 +208,9 @@ ORDER BY student_id, term;
 
 * **Interpretation:**
 
-
-
-•	SUM(...) OVER gives cumulative sum of term averages for each student (in term order).
-•	AVG(...) OVER with the same frame gives cumulative average (rolling average up to current term).
-•	MIN(...) and MAX(...) over the partition (no ordering) yield the minimum and maximum term average grade ever achieved by that student.
+  - `SUM(...) OVER` gives the cumulative sum of term averages for each student (in term order).  
+  - `AVG(...) OVER` with the same frame gives the cumulative average (rolling average up to the current term).  
+  - `MIN(...)` and `MAX(...)` over the partition (without ordering) yield the minimum and maximum term average grade ever achieved by that student.
 
 
 Screenshot:
@@ -253,11 +251,11 @@ ORDER BY student_id, term;
 
 ```
 
-* **Interpretation:** 
+* **Interpretation:**
 
-•	LAG(...) gives the previous term’s average grade for that student (if exists).
-•	diff_grade is absolute difference.
-•	pct_change is percentage change (growth or decline) from previous term.
+  - `LAG(...)` gives the previous term’s average grade for that student (if it exists).  
+  - `diff_grade` is the absolute difference between the current and previous term grades.  
+  - `pct_change` calculates the percentage change (growth or decline) from the previous term.
 
 
 Screenshot:
@@ -294,8 +292,9 @@ ORDER BY overall_avg DESC;
 
 * **Interpretation:**
 
-•	NTILE(4) divides students into 4 buckets (quartiles), highest average in quartile 1, etc.
-•	CUME_DIST() gives for each student the fraction of students with average grade ≤ that student (a cumulative percentile).
+  - `NTILE(4)` divides students into 4 buckets (quartiles), with the highest averages in quartile 1.  
+  - `CUME_DIST()` gives, for each student, the fraction of students with an average grade less than or equal to that student (cumulative percentile).
+
 
 
 Screenshot:
