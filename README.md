@@ -171,15 +171,13 @@ ORDER BY term, department, rnk;
 ```
 
 
-* **Interpretation:** 
+* **Interpretation:**
 
-&nbsp;&nbsp;&nbsp;This query compares each order amount with the previous and next ones using LAG() and LEAD().<br>
-
-•	This gives the top up to 5 students in each department in each term by average grade.
-•	RANK() gives ties the same rank and may skip ranks.
-•	DENSE_RANK() gives ties the same rank but does not skip.
-•	ROW_NUMBER() forces a unique ordering (even ties get arbitrary order).
-•	PERCENT_RANK() gives the relative standing (between 0 and 1) of each student in the partition.
+  - `LAG()` compares each order amount with the previous one in the partition.  
+  - `LEAD()` compares each order amount with the next one in the partition.  
+  - This query identifies the top 5 students in each department for each term based on average grade.  
+  - `RANK()` assigns the same rank to ties and may skip subsequent ranks.  
+  - `DENSE_RANK()` assigns the same rank to ties but does **not** skip subsequent ranks.  
 
 
 Screenshot:
