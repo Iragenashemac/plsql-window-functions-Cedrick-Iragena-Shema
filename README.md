@@ -15,21 +15,21 @@ Names:
 
 ### Problem Definition :
 
-##Business/Institutional Context:
+## Business/Institutional Context:
 
 A university’s academic affairs office wants to improve student performance monitoring across departments. The university offers many courses, and students register in those courses each term. The administration wants to analyze grades over time, identify top-performing students, and segment students by performance quartiles.
 
-##Data Challenge:
+## Data Challenge:
 
 Despite collecting enrollment and grade data each term, the university struggles to quickly gain insights like identifying top students each semester, tracking individual performance over time, and classifying students into performance tiers for targeted support.
 
-##Expected Outcome:
+## Expected Outcome:
 
 By using window functions, the university can rank top students by department and term, track GPA trends over time, measure academic improvement or decline between terms, segment students into performance quartiles, and calculate moving GPA averages to support academic advisors and leadership.
 
 ###Success Criteria:
 
-##Here are 5 precise goals you must deliver:
+## Here are 5 precise goals you must deliver:
 
 1.	Top 5 students per department/term → via RANK() or DENSE_RANK()
 2.	Running cumulative GPA or grade sum per student over terms → via SUM() OVER()
