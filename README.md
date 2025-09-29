@@ -27,7 +27,7 @@ Despite collecting enrollment and grade data each term, the university struggles
 
 By using window functions, the university can rank top students by department and term, track GPA trends over time, measure academic improvement or decline between terms, segment students into performance quartiles, and calculate moving GPA averages to support academic advisors and leadership.
 
-###Success Criteria:
+### Success Criteria:
 
 ## Here are 5 precise goals you must deliver:
 
@@ -38,7 +38,7 @@ By using window functions, the university can rank top students by department an
 5.	3-term moving average of GPA or grade sum → via AVG() OVER()
 
 
-###Database Schema:
+### Database Schema:
 
 | Table        | Purpose                          | Key Columns                                                                 |
 |--------------|----------------------------------|------------------------------------------------------------------------------|
