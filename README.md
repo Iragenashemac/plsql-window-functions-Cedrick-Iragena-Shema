@@ -81,6 +81,15 @@ CREATE TABLE enrollments (
 
 ```
 
+Screenshot:
+
+![Screenshot](./screenshots/Screenshot 2025-09-29 141523.png)
+
+
+<br><br><br><br>
+
+
+
 * Query to insert data 
 
 ```sql
@@ -108,7 +117,9 @@ INSERT INTO enrollments VALUES (10008, 504, 303, '2025S2', 70);
 
 Screenshot:
 
-![Image](https://github.com/user-attachments/assets/ac063791-d68c-4aeb-9950-a187ab731702)
+
+![Screenshot](./screenshots/Screenshot 2025-09-29 142012.png)
+
 <br><br><br><br>
 
 
@@ -162,7 +173,8 @@ ORDER BY term, department, rnk;
 
 Screenshot:
 
-![Image](https://github.com/user-attachments/assets/d7740c27-c2d9-4bb1-9551-9fcf995829da)
+![Screenshot](./screenshots/Screenshot 2025-09-29 143154.png)
+
 <br><br><br>
 
 ### 2. Aggregate (SUM, AVG, MIN, MAX) with frame clause
@@ -205,7 +217,7 @@ ORDER BY student_id, term;
 
 Screenshot:
 
-![Image](https://github.com/user-attachments/assets/5867e4ea-6297-4ff2-ba0f-91e2c36ba248)
+![Screenshot](./screenshots/Screenshot 2025-09-29 143409.png)
 <br><br><br>
 
 
@@ -252,7 +264,7 @@ ORDER BY student_id, term;
 
 Screenshot:
 
-![Image](https://github.com/user-attachments/assets/27db0f70-d292-4032-823d-0477a7edc6a7)
+![Screenshot](./screenshots/Screenshot 2025-09-29 143659.png)
 <br><br><br>
 
 
@@ -292,7 +304,7 @@ ORDER BY overall_avg DESC;
 
 Screenshot:
 
-![Image](https://github.com/user-attachments/assets/138e299d-284e-4e4e-a4ce-6fbc037894e4)
+![Screenshot](./screenshots/Screenshot 2025-09-29 144642.png)
 <br><br><br>
 
 
